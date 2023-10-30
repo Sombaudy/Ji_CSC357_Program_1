@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[]) {
     char *filename;
-    char input[100];
+    char input[1000];
     bool file_present = checkInput(argc);
     //printf("%s\n", filename);
 
@@ -18,20 +18,22 @@ int main(int argc, char *argv[]) {
     int char_count = 0;
 
     if (!file_present) { 
-        printf("No file provided, enter input: ");
-        fgets(input, sizeof(input), stdin);
-        printf("input: %s\n", input);
-
-        for (int i = 0; i < strlen(input); i++) {
-            if (isspace(input[i]) != 0) {
-                prev_whitespace = true;
-            } else {
-                if (prev_whitespace) {
-                    word_count = word_count + 1;
+        line_count = 0;
+        printf("No file provided, enter input (exit with ctrl d): ");
+        while (fgets(input, sizeof(input), stdin) != NULL) {
+            //printf("input: %s", input);
+            for (int i = 0; i < strlen(input); i++) {
+                if (isspace(input[i]) != 0) {
+                    prev_whitespace = true;
+                } else {
+                    if (prev_whitespace) {
+                        word_count = word_count + 1;
+                    }
+                    prev_whitespace = false;
                 }
-                prev_whitespace = false;
+                char_count = char_count + 1;
             }
-            char_count = char_count + 1;
+            line_count = line_count + 1;
         }
 
     }
@@ -60,7 +62,7 @@ int main(int argc, char *argv[]) {
         fclose(file);
     }
 
-    printf("lines: %d\nwords: %d\nchars: %d\n", line_count, word_count, char_count);
+    printf("\nlines: %d\nwords: %d\nchars: %d\n", line_count, word_count, char_count);
 
     return 0;
 }
