@@ -4,18 +4,12 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include "funcs.h"
 
 int main(int argc, char *argv[]) {
     char *filename;
     char input[100];
-    bool file_present = true;
-    if (argc < 2) {
-        file_present = false;
-        printf("no file\n");
-    }
-    if (argc > 1) {
-        filename = argv[1];
-    }
+    bool file_present = checkInput(argc);
     //printf("%s\n", filename);
 
     bool prev_whitespace = true;
@@ -43,11 +37,8 @@ int main(int argc, char *argv[]) {
     }
 
     if (file_present){
-        FILE *file = fopen(filename, "r");
-        if (file == NULL) {
-            perror(filename);
-            exit(-1);
-        }
+        filename = argv[1];
+        FILE *file = openFile(filename);
 
         char c;
 
